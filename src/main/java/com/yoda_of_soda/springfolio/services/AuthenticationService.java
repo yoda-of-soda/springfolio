@@ -5,7 +5,6 @@ import java.util.HashMap;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.bouncycastle.openssl.PasswordException;
 import org.mindrot.jbcrypt.BCrypt;
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.core.type.TypeReference;

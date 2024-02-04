@@ -1,7 +1,6 @@
 package com.yoda_of_soda.springfolio.models;
 
 import com.yoda_of_soda.springfolio.enums.Role;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -51,7 +50,7 @@ public class User {
     public Role getRole() {
         return role;
     }
-    
+
     public void setRole(Role role) {
         this.role = role;
     }

@@ -1,6 +1,5 @@
 package com.yoda_of_soda.springfolio.config;
 
-import org.springframework.beans.factory.annotation.Autowired; 
 import org.springframework.context.annotation.Bean; 
 import org.springframework.context.annotation.Configuration; 
 import org.springframework.security.authentication.AuthenticationManager; 
@@ -25,10 +24,8 @@ import com.yoda_of_soda.springfolio.services.UserService;
 @EnableMethodSecurity
 public class SecurityConfig { 
 
-	// @Autowired
 	private JwtAuthFilter jwtAuthFilter; 
     private UserDetailsService userDetailsService;
-	// User Creation 
     
     public SecurityConfig(UserRepository userRepository, JwtAuthFilter jwtAuthFilter){
         this.userDetailsService = new UserService(userRepository);
@@ -51,7 +48,6 @@ public class SecurityConfig {
                 .build(); 
 	} 
 
-	// Password Encoding 
 	@Bean
 	public PasswordEncoder passwordEncoder() { 
 		return new BCryptPasswordEncoder(); 
