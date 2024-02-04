@@ -2,18 +2,30 @@ package com.yoda_of_soda.springfolio.services;
 
 import java.io.IOException;
 import java.util.HashMap;
-
 import org.apache.tomcat.util.codec.binary.Base64;
+import org.bouncycastle.openssl.PasswordException;
+import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yoda_of_soda.springfolio.models.User;
 import com.yoda_of_soda.springfolio.request.DecodedJWTResponse;
+import com.yoda_of_soda.springfolio.request.LoginRequest;
 
 @Service
 public class AuthenticationService {
 
-    private static final ObjectMapper objectMapper = new ObjectMapper();
+    private final UserService userService;
+    private static ObjectMapper objectMapper;
+    private final JwtService jwtService;
+
+    public AuthenticationService(UserService userService, JwtService jwtService){
+        objectMapper = new ObjectMapper();
+        this.userService = userService;
+        this.jwtService = jwtService;
+    }
 
     public DecodedJWTResponse DecodeJWT(String jwt) throws IllegalAccessException{
         if (!jwt.matches("[^\\.]+\\.[^\\.]+\\.[^\\.]+")){
@@ -28,6 +40,17 @@ public class AuthenticationService {
         } catch (IOException e) {
             return new DecodedJWTResponse(e.toString());
         }
+    }
+
+    public String login(LoginRequest request) throws UsernameNotFoundException, PasswordException {
+        User user = userService.getUserByUsername(request.getUsername());
+        if(user == null){
+            throw new UsernameNotFoundException("Username '" + request.getUsername() + "' not found");
+        }
+        if(!BCrypt.checkpw(request.getPassword(), user.getPassword())){
+            throw new PasswordException("Password and/or username is incorrect");
+        }
+        return jwtService.generateToken(user);
     }
 
     public static HashMap<String, Object> jsonToHashMap(String jsonString) throws IOException {
