@@ -22,8 +22,8 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-    // @Value("jwt.secret")
-    public static String SECRET = "220085b93074bf28f8893979e8e6ee1220085b93074bf28f8893979e8e6ee1"; 
+    @Value("${jwt.secret}")
+    private String SECRET; 
 
     public String generateToken(User user) { 
         Map<String, Object> claims = new HashMap<String,Object>();

@@ -3,23 +3,16 @@ package com.yoda_of_soda.springfolio.controllers;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yoda_of_soda.springfolio.request.DecodeJWTRequest;
 import com.yoda_of_soda.springfolio.request.DecodedJWTResponse;
 import com.yoda_of_soda.springfolio.request.LoginRequest;
 import com.yoda_of_soda.springfolio.request.LoginResponse;
 import com.yoda_of_soda.springfolio.services.AuthenticationService;
-import com.yoda_of_soda.springfolio.services.UserService;
-
 import org.bouncycastle.openssl.PasswordException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController

@@ -26,12 +26,13 @@ import com.yoda_of_soda.springfolio.services.UserService;
 public class SecurityConfig { 
 
 	// @Autowired
-	// private JwtAuthFilter authFilter; 
+	private JwtAuthFilter jwtAuthFilter; 
     private UserDetailsService userDetailsService;
 	// User Creation 
     
-    public SecurityConfig(UserRepository userRepository){
+    public SecurityConfig(UserRepository userRepository, JwtAuthFilter jwtAuthFilter){
         this.userDetailsService = new UserService(userRepository);
+        this.jwtAuthFilter = jwtAuthFilter;
     }
 
     public UserDetailsService getUserDetailsService() {
@@ -42,12 +43,11 @@ public class SecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception { 
 		return http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(requests -> requests.requestMatchers("/hello", "/", "/login", "/users", "/jwt/decode").permitAll())
-                .authorizeHttpRequests(requests -> requests.requestMatchers("/auth/user/**").authenticated())
-                .authorizeHttpRequests(requests -> requests.requestMatchers("/auth/admin/**").authenticated())
+                .authorizeHttpRequests(requests -> requests.requestMatchers("/auth/users").authenticated())
                 .sessionManagement(management -> management
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
-                // .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .build(); 
 	} 
 
