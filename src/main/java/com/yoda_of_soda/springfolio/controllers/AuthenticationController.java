@@ -5,12 +5,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.yoda_of_soda.springfolio.models.GithubTokenCollection;
 import com.yoda_of_soda.springfolio.models.GithubUser;
+import com.yoda_of_soda.springfolio.models.User;
 import com.yoda_of_soda.springfolio.request.DecodeJWTRequest;
 import com.yoda_of_soda.springfolio.request.DecodedJWTResponse;
 import com.yoda_of_soda.springfolio.request.LoginRequest;
 import com.yoda_of_soda.springfolio.request.LoginResponse;
 import com.yoda_of_soda.springfolio.services.AuthenticationService;
 import com.yoda_of_soda.springfolio.services.GithubService;
+import com.yoda_of_soda.springfolio.services.UserService;
 
 import org.bouncycastle.openssl.PasswordException;
 import org.springframework.http.HttpStatus;
@@ -27,10 +29,12 @@ public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
     private final GithubService githubService;
+    private final UserService userService;
 
-    public AuthenticationController(AuthenticationService authenticationService, GithubService githubService) {
+    public AuthenticationController(AuthenticationService authenticationService, GithubService githubService, UserService userService) {
         this.authenticationService = authenticationService;
         this.githubService = githubService;
+        this.userService = userService;
     }
 
     @GetMapping("/hello")
@@ -67,8 +71,15 @@ public class AuthenticationController {
     }
     
     @GetMapping("/login/github")
-    public GithubUser GithubCallback(@RequestParam String code) {
-        return githubService.LoginCallback(code);
+    public ResponseEntity<LoginResponse> GithubCallback(@RequestParam String code) {
+        GithubUser githubUser = githubService.LoginCallback(code);
+        User user = userService.addUser(githubUser);
+        try {
+            String jwtToken = authenticationService.login(user);
+            return ResponseEntity.ok(new LoginResponse(jwtToken, ""));
+        } catch (UsernameNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new LoginResponse("", e.getMessage()));
+        }
     }
 
 }

@@ -2,6 +2,8 @@ package com.yoda_of_soda.springfolio.services;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Optional;
+
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.bouncycastle.openssl.PasswordException;
 import org.mindrot.jbcrypt.BCrypt;
@@ -48,6 +50,14 @@ public class AuthenticationService {
         }
         if(!BCrypt.checkpw(request.getPassword(), user.getPassword())){
             throw new PasswordException("Password and/or username is incorrect");
+        }
+        return jwtService.generateToken(user);
+    }
+
+    public String login(User user) throws UsernameNotFoundException {
+        User existingUser = userService.getUserByUsername(user.getUsername());
+        if(existingUser == null){
+            throw new UsernameNotFoundException("Username '" + user.getUsername() + "' not found");
         }
         return jwtService.generateToken(user);
     }

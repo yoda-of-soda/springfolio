@@ -8,9 +8,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import com.yoda_of_soda.springfolio.enums.OauthProvider;
+import com.yoda_of_soda.springfolio.enums.Role;
 import com.yoda_of_soda.springfolio.models.GithubEmail;
 import com.yoda_of_soda.springfolio.models.GithubTokenCollection;
 import com.yoda_of_soda.springfolio.models.GithubUser;
+import com.yoda_of_soda.springfolio.models.User;
 
 @Service
 public class GithubService {
@@ -66,5 +70,16 @@ public class GithubService {
         ResponseEntity<GithubEmail[]> response = restTemplate.exchange(url, HttpMethod.GET, request, GithubEmail[].class);
         GithubEmail[] emails = response.getBody();
         return emails[0].getEmail();
+    }
+
+    // Not using automapper/ModelMapper due to too many custom mappings
+    public static User ConvertGithubUserToDomainUser(GithubUser githubUser){
+        User user = new User();
+        user.setEmail(githubUser.getEmail());
+        user.setProvider(OauthProvider.GITHUB);
+        user.setExternalId(githubUser.getId());
+        user.setRole(Role.USER);
+        user.setUsername(githubUser.getLogin());
+        return user;
     }
 }
