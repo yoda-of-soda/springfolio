@@ -4,14 +4,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-
-import java.util.logging.Logger;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
 import com.yoda_of_soda.springfolio.models.GithubEmail;
 import com.yoda_of_soda.springfolio.models.GithubTokenCollection;
 import com.yoda_of_soda.springfolio.models.GithubUser;
@@ -29,15 +25,12 @@ public class GithubService {
     @Value("${github.redirect_uri}")
     private String loginRedirectURI;
 
-    private Logger logger;
-
     public GithubService(){
         baseUrl = "https://api.github.com/";
         headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set(HttpHeaders.ACCEPT, "application/vnd.github+json");
         this.restTemplate = new RestTemplate();
-        this.logger = Logger.getLogger("github");
     }
 
     public String GetOauthPage(){
