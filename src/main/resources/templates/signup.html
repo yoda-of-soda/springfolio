@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/index.css"/>
+    <title>Sign up</title>
+</head>
+
+<body>
+    <div class="page-content">
+        <h1>Sign up to Springfolio</h1>
+        <h3>You can sign up using </h3>
+        <div style="display: inline;">
+            <a href="/signup/github">
+                <img src="/github.png" height="50" width="50" />
+            </a>
+            <a href="/signup/google">
+                <img src="/google.png" height="50" width="50" />
+            </a>
+        </div>
+        <h3>Or you can do it the old fashioned way</h3>
+        <div>
+            <form method="post" action="/users">
+                <div>
+                    <label for="username">Username</label>
+                    <input name="username" type="text" placeholder="MyNewUser" />
+                </div>
+                <div>
+                    <label for="email">Email</label>
+                    <input name="email" type="text" placeholder="your@email.com" />
+                </div>
+                <div>
+                    <label for="password">Password</label>
+                    <input name="password" type="password" />
+                </div>
+                <div>
+                    <label for="confirm-password">Repeat password</label>
+                    <input name="confirm-password" type="password" />
+                </div>
+                <div>
+                    <button class="button blue" type="submit">Sign up</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
