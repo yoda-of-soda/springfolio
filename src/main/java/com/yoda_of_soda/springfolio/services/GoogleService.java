@@ -32,13 +32,6 @@ public class GoogleService {
     private String loginRedirectURI;
     private final String oauthApiUrl = "https://oauth2.googleapis.com/token";
 
-    public GoogleTokenResponse DebugMe(){
-        GoogleTokenResponse r = new GoogleTokenResponse();
-        r.setAccess_token(clientId);
-        r.setRefresh_token(clientSecret);
-        r.setScope(loginRedirectURI);
-        return r;
-    }
     public GoogleService() {
         this.restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(0, new StringHttpMessageConverter());
