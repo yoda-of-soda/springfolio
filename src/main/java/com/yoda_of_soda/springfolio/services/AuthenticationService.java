@@ -2,8 +2,6 @@ package com.yoda_of_soda.springfolio.services;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Optional;
-
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.bouncycastle.openssl.PasswordException;
 import org.mindrot.jbcrypt.BCrypt;

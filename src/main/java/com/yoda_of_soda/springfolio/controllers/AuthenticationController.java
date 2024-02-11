@@ -3,13 +3,11 @@ package com.yoda_of_soda.springfolio.controllers;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.yoda_of_soda.springfolio.models.GithubTokenCollection;
 import com.yoda_of_soda.springfolio.models.GithubUser;
 import com.yoda_of_soda.springfolio.models.GoogleUser;
 import com.yoda_of_soda.springfolio.models.User;
 import com.yoda_of_soda.springfolio.request.DecodeJWTRequest;
 import com.yoda_of_soda.springfolio.request.DecodedJWTResponse;
-import com.yoda_of_soda.springfolio.request.GoogleTokenResponse;
 import com.yoda_of_soda.springfolio.request.LoginRequest;
 import com.yoda_of_soda.springfolio.request.LoginResponse;
 import com.yoda_of_soda.springfolio.services.AuthenticationService;

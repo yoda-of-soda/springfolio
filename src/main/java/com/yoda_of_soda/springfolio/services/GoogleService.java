@@ -3,8 +3,6 @@ package com.yoda_of_soda.springfolio.services;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.Base64;
-import java.util.logging.Logger;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
