@@ -18,7 +18,7 @@ import com.yoda_of_soda.springfolio.models.GithubUser;
 import com.yoda_of_soda.springfolio.models.User;
 
 @Service
-public class GithubService {
+public class GithubService implements IOAuthService {
     private final String baseUrl;
     private HttpHeaders headers;
     RestTemplate restTemplate;
@@ -42,7 +42,7 @@ public class GithubService {
         return "http://www.github.com/login/oauth/authorize?client_id="+clientId;
     }
 
-    public GithubUser LoginCallback(String code){
+    public User LoginCallback(String code){
         HttpEntity<Void> request = RequestFactory.create(null, headers);
         String url = String.format("https://github.com/login/oauth/access_token?client_id=%s&client_secret=%s&code=%s&redirect_uri=%s", 
         clientId, clientSecret, code, loginRedirectURI);
@@ -50,7 +50,7 @@ public class GithubService {
         ResponseEntity<GithubTokenCollection> response = restTemplate.postForEntity(url, request, GithubTokenCollection.class);
         GithubTokenCollection tokens = response.getBody();
         headers.setBearerAuth(tokens.getAccess_token());
-        return GetUser();
+        return ConvertGithubUserToDomainUser(GetUser());
     }
 
     private GithubUser GetUser(){
@@ -74,7 +74,7 @@ public class GithubService {
     }
 
     // Not using automapper/ModelMapper due to too many custom mappings
-    public static User ConvertGithubUserToDomainUser(GithubUser githubUser){
+    private User ConvertGithubUserToDomainUser(GithubUser githubUser){
         User user = new User();
         user.setEmail(githubUser.getEmail());
         user.setProvider(OauthProvider.GITHUB);

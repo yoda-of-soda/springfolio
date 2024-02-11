@@ -20,7 +20,7 @@ import com.yoda_of_soda.springfolio.models.User;
 import com.yoda_of_soda.springfolio.request.GoogleTokenResponse;
 
 @Service
-public class GoogleService {
+public class GoogleService implements IOAuthService {
     private String authorizationRequestUrl;
     RestTemplate restTemplate;
 
@@ -54,7 +54,7 @@ public class GoogleService {
     }
 
     // Not using automapper/ModelMapper due to too many custom mappings
-    public static User ConvertGoogleUserToDomainUser(GoogleUser googleUser){
+    private User ConvertGoogleUserToDomainUser(GoogleUser googleUser){
         User user = new User();
         user.setExternalId(new BigInteger(googleUser.getId()));
         user.setEmail(googleUser.getEmail());
@@ -64,10 +64,10 @@ public class GoogleService {
         return user;
     }
 
-    public GoogleUser LoginCallback(String code){
+    public User LoginCallback(String code){
         GoogleTokenResponse tokens = GetTokensFromGoogle(code);
         GoogleUser user = GetUserEmail(tokens.getAccess_token());
-        return user;
+        return ConvertGoogleUserToDomainUser(user);
     }
 
     private GoogleTokenResponse GetTokensFromGoogle(String code){

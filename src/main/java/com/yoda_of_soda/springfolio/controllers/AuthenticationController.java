@@ -3,8 +3,6 @@ package com.yoda_of_soda.springfolio.controllers;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.yoda_of_soda.springfolio.models.GithubUser;
-import com.yoda_of_soda.springfolio.models.GoogleUser;
 import com.yoda_of_soda.springfolio.models.User;
 import com.yoda_of_soda.springfolio.request.DecodeJWTRequest;
 import com.yoda_of_soda.springfolio.request.DecodedJWTResponse;
@@ -70,10 +68,10 @@ public class AuthenticationController {
     
     @GetMapping("/login/github")
     public ResponseEntity<LoginResponse> GithubCallback(@RequestParam String code) {
-        GithubUser githubUser = githubService.LoginCallback(code);
-        User user = userService.addUser(githubUser);
+        User user = githubService.LoginCallback(code);
+        User newUser = userService.addUser(user);
         try {
-            String jwtToken = authenticationService.login(user);
+            String jwtToken = authenticationService.login(newUser);
             return ResponseEntity.ok(new LoginResponse(jwtToken, ""));
         } catch (UsernameNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new LoginResponse("", e.getMessage()));
@@ -87,10 +85,10 @@ public class AuthenticationController {
 
     @GetMapping("/login/google")
     public ResponseEntity<LoginResponse> GoogleCallback(@RequestParam String code) {
-        GoogleUser googleUser = googleService.LoginCallback(code);
-        User user = userService.addUser(googleUser);
+        User user = googleService.LoginCallback(code);
+        User newUser = userService.addUser(user);
         try {
-            String jwtToken = authenticationService.login(user);
+            String jwtToken = authenticationService.login(newUser);
             return ResponseEntity.ok(new LoginResponse(jwtToken, ""));
         } catch (UsernameNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new LoginResponse("", e.getMessage()));

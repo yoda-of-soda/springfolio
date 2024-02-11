@@ -48,16 +48,6 @@ public class UserService implements UserDetailsService {
         return userRepository.save(user);
     }
 
-    public User addUser(GithubUser githubUser){
-        User user = GithubService.ConvertGithubUserToDomainUser(githubUser);
-        return addUser(user);
-    }
-
-    public User addUser(GoogleUser googleUser){
-        User user = GoogleService.ConvertGoogleUserToDomainUser(googleUser);
-        return addUser(user);
-    }
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username)
