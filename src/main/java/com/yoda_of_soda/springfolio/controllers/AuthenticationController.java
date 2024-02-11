@@ -5,13 +5,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.yoda_of_soda.springfolio.models.GithubTokenCollection;
 import com.yoda_of_soda.springfolio.models.GithubUser;
+import com.yoda_of_soda.springfolio.models.GoogleUser;
 import com.yoda_of_soda.springfolio.models.User;
 import com.yoda_of_soda.springfolio.request.DecodeJWTRequest;
 import com.yoda_of_soda.springfolio.request.DecodedJWTResponse;
+import com.yoda_of_soda.springfolio.request.GoogleTokenResponse;
 import com.yoda_of_soda.springfolio.request.LoginRequest;
 import com.yoda_of_soda.springfolio.request.LoginResponse;
 import com.yoda_of_soda.springfolio.services.AuthenticationService;
 import com.yoda_of_soda.springfolio.services.GithubService;
+import com.yoda_of_soda.springfolio.services.GoogleService;
 import com.yoda_of_soda.springfolio.services.UserService;
 
 import org.bouncycastle.openssl.PasswordException;
@@ -29,19 +32,26 @@ public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
     private final GithubService githubService;
+    private final GoogleService googleService;
     private final UserService userService;
 
-    public AuthenticationController(AuthenticationService authenticationService, GithubService githubService, UserService userService) {
+    public AuthenticationController(AuthenticationService authenticationService, GithubService githubService, UserService userService, GoogleService googleService) {
         this.authenticationService = authenticationService;
         this.githubService = githubService;
         this.userService = userService;
+        this.googleService = googleService;
     }
 
     @GetMapping("/hello")
     public String getHello() {
-        return "Helloooo!!";
+        return googleService.GetOauthPage()+"\n";
     }
 
+    @GetMapping("/value")
+    public GoogleTokenResponse DebugMe() {
+        return googleService.DebugMe();
+    }
+    
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
         try {
@@ -82,4 +92,20 @@ public class AuthenticationController {
         }
     }
 
+    @GetMapping("/signup/google")
+    public RedirectView GoogleSignupLogin() {
+        return new RedirectView(googleService.GetOauthPage());
+    }
+
+    @GetMapping("/login/google")
+    public ResponseEntity<LoginResponse> GoogleCallback(@RequestParam String code) {
+        GoogleUser googleUser = googleService.LoginCallback(code);
+        User user = userService.addUser(googleUser);
+        try {
+            String jwtToken = authenticationService.login(user);
+            return ResponseEntity.ok(new LoginResponse(jwtToken, ""));
+        } catch (UsernameNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new LoginResponse("", e.getMessage()));
+        }
+    }
 }

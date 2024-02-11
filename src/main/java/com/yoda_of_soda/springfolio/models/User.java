@@ -1,5 +1,7 @@
 package com.yoda_of_soda.springfolio.models;
 
+import java.math.BigInteger;
+
 import com.yoda_of_soda.springfolio.enums.OauthProvider;
 import com.yoda_of_soda.springfolio.enums.Role;
 import jakarta.persistence.Entity;
@@ -16,7 +18,7 @@ public class User {
     private String email;
     private String password;
     private Role role;
-    private Integer externalId;
+    private BigInteger externalId;
     private OauthProvider provider;
 
     public Long getId() {
@@ -59,11 +61,11 @@ public class User {
         this.role = role;
     }
 
-    public Integer getExternalId() {
+    public BigInteger getExternalId() {
         return externalId;
     }
 
-    public void setExternalId(Integer externalId) {
+    public void setExternalId(BigInteger externalId) {
         this.externalId = externalId;
     }
 
@@ -74,4 +76,5 @@ public class User {
     public void setProvider(OauthProvider provider) {
         this.provider = provider;
     }
+
 }

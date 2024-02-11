@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.mindrot.jbcrypt.BCrypt;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,6 +12,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.yoda_of_soda.springfolio.enums.Role;
 import com.yoda_of_soda.springfolio.models.GithubUser;
+import com.yoda_of_soda.springfolio.models.GoogleUser;
 import com.yoda_of_soda.springfolio.models.User;
 import com.yoda_of_soda.springfolio.repository.UserRepository;
 
@@ -50,6 +50,11 @@ public class UserService implements UserDetailsService {
 
     public User addUser(GithubUser githubUser){
         User user = GithubService.ConvertGithubUserToDomainUser(githubUser);
+        return addUser(user);
+    }
+
+    public User addUser(GoogleUser googleUser){
+        User user = GoogleService.ConvertGoogleUserToDomainUser(googleUser);
         return addUser(user);
     }
 
