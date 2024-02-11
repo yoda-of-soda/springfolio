@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/index.css"/>
+    <title>Springfolio - Login</title>
+</head>
+<body>
+    <div class="page-content">
+        <h1>Login to Springfolio</h1>
+        <h3>You can login using</h3>
+        <div style="display: inline;">
+            <a href="/signup/github">
+                <img src="/github.png" height="50" width="50" />
+            </a>
+            <a href="/signup/google">
+                <img src="/google.png" height="50" width="50" />
+            </a>
+        </div>
+        <h3>Or you can do it the old fashioned way</h3>
+        <div>
+            <form method="post" action="/login">
+                <div>
+                    <label for="username">Username</label>
+                    <input name="username" type="text" placeholder="MyNewUser" />
+                </div>
+                <div>
+                    <label for="password">Password</label>
+                    <input name="password" type="password" />
+                </div>
+                <div>
+                    <button class="button blue" type="submit">Login</button>
+                </div>
+                
+                <a href="/signup">Don't have a user yet? Sign up here</a>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

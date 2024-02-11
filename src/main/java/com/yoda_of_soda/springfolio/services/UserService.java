@@ -1,12 +1,18 @@
 package com.yoda_of_soda.springfolio.services;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
 import com.yoda_of_soda.springfolio.enums.Role;
+import com.yoda_of_soda.springfolio.models.GithubUser;
+import com.yoda_of_soda.springfolio.models.GoogleUser;
 import com.yoda_of_soda.springfolio.models.User;
 import com.yoda_of_soda.springfolio.repository.UserRepository;
 
@@ -31,11 +37,25 @@ public class UserService implements UserDetailsService {
         return userRepository.findByUsername(username).orElse(null);
     }
 
-    public User addUser(User user){
+    public User addUser(User user) throws ResponseStatusException {
         String hashedPassword = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
         user.setPassword(hashedPassword);
         user.setRole(Role.USER);
+        Optional<User> existingUser = userRepository.findByUsername(user.getUsername());
+        if(existingUser.isPresent()){
+            return existingUser.get();
+        }
         return userRepository.save(user);
+    }
+
+    public User addUser(GithubUser githubUser){
+        User user = GithubService.ConvertGithubUserToDomainUser(githubUser);
+        return addUser(user);
+    }
+
+    public User addUser(GoogleUser googleUser){
+        User user = GoogleService.ConvertGoogleUserToDomainUser(googleUser);
+        return addUser(user);
     }
 
     @Override

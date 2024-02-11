@@ -42,7 +42,7 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public ResponseEntity<User> postMethodName(@RequestBody User user) {
+    public ResponseEntity<User> addUser(@RequestBody User user) {
         User createdUser = userService.addUser(user);
         if(createdUser == null) return ResponseEntity.internalServerError().build();
         return ResponseEntity.ok(createdUser);

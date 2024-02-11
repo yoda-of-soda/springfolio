@@ -1,0 +1,30 @@
+body {
+    background-color: rgb(5, 25, 80);
+    margin: 0;
+}
+
+.page-content {
+    margin: 0 20vw;
+    background-color: #fff;
+    min-height: 86vh;
+    padding: 5%;
+    text-align: center;
+}
+
+.button {
+    border-radius: 25px;
+    padding: 10px 20px;
+    margin: 10px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.white {
+    background-color: #fff;
+    color: rgb(5, 25, 80);
+}
+
+.blue {
+    color: #fff;
+    background-color: rgb(5, 25, 80);
+}
