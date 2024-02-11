@@ -26,11 +26,11 @@ public class GoogleService {
     private String authorizationRequestUrl;
     RestTemplate restTemplate;
 
-    @Value("${custom_google.client.id}")
+    @Value("${google.client.id}")
     private String clientId;
-    @Value("${custom_google.client.secret}")
+    @Value("${google.client.secret}")
     private String clientSecret;
-    @Value("${custom_google.redirect_uri}")
+    @Value("${google.redirect_uri}")
     private String loginRedirectURI;
     private final String oauthApiUrl = "https://oauth2.googleapis.com/token";
 

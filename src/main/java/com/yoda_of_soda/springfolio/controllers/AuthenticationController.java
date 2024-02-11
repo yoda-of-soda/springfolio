@@ -41,16 +41,6 @@ public class AuthenticationController {
         this.userService = userService;
         this.googleService = googleService;
     }
-
-    @GetMapping("/hello")
-    public String getHello() {
-        return googleService.GetOauthPage()+"\n";
-    }
-
-    @GetMapping("/value")
-    public GoogleTokenResponse DebugMe() {
-        return googleService.DebugMe();
-    }
     
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {

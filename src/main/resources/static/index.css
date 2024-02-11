@@ -11,22 +11,6 @@ body {
     text-align: center;
 }
 
-.box {
-    background-color: rgb(5, 25, 80);
-    border-radius: 25px;
-    padding: 20px;
-    color: #fff;
-    margin: 10px;
-}
-
-.comment {
-    background-color: rgb(5, 25, 80);
-    border-radius: 25px;
-    padding: 20px;
-    color: #fff;
-    margin: 10px;
-}
-
 .button {
     border-radius: 25px;
     padding: 10px 20px;
@@ -43,21 +27,4 @@ body {
 .blue {
     color: #fff;
     background-color: rgb(5, 25, 80);
-}
-
-.red {
-    color: #fff;
-    background-color: rgb(155,0,0);
-}
-
-.file-list-item {
-    align-items: center;
-    justify-content: center;
-}
-
-.text-area {
-    width: 98%;
-    margin-top:5px;
-    border-radius:15px;
-    padding:10px;
 }
